@@ -1,0 +1,52 @@
+{
+  "name": "agenthub",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.28.2",
+  "engines": {
+    "node": ">=20.11.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint && uv run --project apps/api ruff check apps/api",
+    "format": "prettier --write . && uv run --project apps/api ruff format apps/api",
+    "format:check": "prettier --check . && uv run --project apps/api ruff format --check apps/api",
+    "typecheck": "turbo typecheck && uv run --project apps/api mypy apps/api/src",
+    "test": "turbo test && uv run --project apps/api pytest apps/api/tests",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "contract:build": "scripts/build-agenthub-registry.sh",
+    "contract:deploy:testnet": "scripts/deploy-agenthub-registry.sh",
+    "contract:prepare-wallet:testnet": "CASPER_DEPLOY_SIGNING_MODE=wallet scripts/deploy-agenthub-registry.sh",
+    "contract:wallet-signer": "scripts/serve-casper-wallet-signer.sh",
+    "contract:submit-wallet:testnet": "scripts/submit-agenthub-registry-signed-transaction.sh",
+    "prepare": "husky",
+    "commitlint": "commitlint --edit"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.29.0",
+    "@next/eslint-plugin-next": "15.5.19",
+    "@types/node": "^22.15.32",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "globals": "^16.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.12",
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs,json,md,css,yml,yaml}": "prettier --write",
+    "*.{js,jsx,ts,tsx,mjs,cjs}": "eslint --fix",
+    "*.py": [
+      "ruff check --fix",
+      "ruff format"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+[package]
+name = "agenthub-registry"
+version = "0.1.0"
+edition = "2021"
+description = "AgentHub registry contract interface"
+
+[dependencies]
+odra = "2.8.1"
+
+[build-dependencies]
+odra-build = "=2.8.1"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "agenthub_registry_build_contract"
+path = "bin/build_contract.rs"
+test = false
+
+[profile.release]
+codegen-units = 1
+lto = true

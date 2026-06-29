@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+:root {
+  --background: #080b0b;
+  --foreground: #eef1e8;
+  --muted: #929b91;
+  --surface: #101514;
+  --line: rgba(238, 241, 232, 0.1);
+  --signal: #ccff33;
+  --signal-soft: rgba(204, 255, 51, 0.12);
+  --ember: #ff6b35;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(
+      circle at 82% 2%,
+      rgba(204, 255, 51, 0.08),
+      transparent 24rem
+    ),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    var(--background);
+  background-size:
+    auto,
+    48px 48px,
+    48px 48px,
+    auto;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+}
+
+::selection {
+  background: var(--signal);
+  color: #080b0b;
+}
+
+.font-display {
+  font-family: "Iowan Old Style", "Baskerville", serif;
+  letter-spacing: -0.045em;
+}
+
+.font-mono {
+  font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@keyframes pulse-line {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.65);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes runtime-node-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 18px 50px rgba(0, 0, 0, 0.34),
+      0 0 0 0 rgba(125, 211, 252, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 18px 50px rgba(0, 0, 0, 0.34),
+      0 0 34px 3px rgba(125, 211, 252, 0.2);
+  }
+}
+
+@keyframes runtime-node-retry {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(251, 191, 36, 0);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(251, 191, 36, 0.22);
+  }
+}
+
+@keyframes runtime-node-success {
+  from {
+    box-shadow: 0 0 30px rgba(110, 231, 183, 0.35);
+  }
+  to {
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+  }
+}
+
+@keyframes runtime-node-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes runtime-border-travel {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes runtime-edge-travel {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+.workflow-node--queued {
+  border-color: rgba(125, 211, 252, 0.34);
+}
+
+.workflow-node--running {
+  border-color: rgba(125, 211, 252, 0.9);
+  animation: runtime-node-pulse 1.6s ease-in-out infinite;
+}
+
+.workflow-node--waiting {
+  border-color: rgba(251, 191, 36, 0.65);
+}
+
+.workflow-node--success,
+.workflow-node--completed {
+  border-color: rgba(110, 231, 183, 0.72);
+  animation: runtime-node-success 0.75s ease-out;
+}
+
+.workflow-node--failed {
+  border-color: rgba(251, 113, 133, 0.9);
+  animation: runtime-node-shake 0.32s ease-in-out 2;
+}
+
+.workflow-node--retrying {
+  border-color: rgba(251, 191, 36, 0.8);
+  animation: runtime-node-retry 1s ease-in-out infinite;
+}
+
+.workflow-node--skipped,
+.workflow-node--cancelled {
+  border-color: rgba(148, 163, 184, 0.28);
+  opacity: 0.62;
+}
+
+.workflow-node-progress {
+  overflow: hidden;
+  background: conic-gradient(
+    from 0deg,
+    rgba(125, 211, 252, 0) 0deg,
+    rgba(125, 211, 252, 0.85) 44deg,
+    rgba(125, 211, 252, 0) 88deg
+  );
+  animation: runtime-border-travel 1.8s linear infinite;
+}
+
+.runtime-edge-active .react-flow__edge-path {
+  stroke-dasharray: 7 5;
+  animation: runtime-edge-travel 0.7s linear infinite;
+}
+
+.runtime-edge-complete .react-flow__edge-path {
+  filter: drop-shadow(0 0 3px rgba(110, 231, 183, 0.35));
+}
+
+.runtime-edge-inactive {
+  opacity: 0.72;
+}
+
+.signal-line {
+  animation: pulse-line 2.8s ease-in-out infinite;
+  transform-origin: left;
+}
+
+.field {
+  min-height: 2.75rem;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #0d1110;
+  padding: 0 0.75rem;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.field:focus {
+  border-color: rgba(238, 241, 232, 0.3);
+}
+
+.workflow-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.workflow-canvas {
+  grid-row: 1;
+}
+
+.workflow-left-panel {
+  grid-row: 2;
+}
+
+.workflow-right-panel {
+  grid-row: 3;
+}
+
+@media (min-width: 1280px) {
+  .workflow-workbench {
+    grid-template-columns:
+      var(--workflow-left-width) var(--workflow-left-handle)
+      minmax(300px, 1fr)
+      var(--workflow-right-handle) var(--workflow-right-width);
+  }
+
+  .workflow-left-panel {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .workflow-left-handle {
+    grid-column: 2;
+  }
+
+  .workflow-canvas {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .workflow-right-handle {
+    grid-column: 4;
+  }
+
+  .workflow-right-panel {
+    grid-column: 5;
+    grid-row: 1;
+  }
+}
+
+.react-flow__controls-button {
+  border-bottom-color: rgba(238, 241, 232, 0.1) !important;
+  background: #111614 !important;
+  color: #eef1e8 !important;
+  fill: #eef1e8 !important;
+}
+
+.react-flow__controls-button:hover {
+  background: #19201d !important;
+}
+
+.react-flow__attribution {
+  display: none;
+}

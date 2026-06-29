@@ -1,0 +1,8 @@
+.next
+.turbo
+.venv
+dist
+node_modules
+target
+pnpm-lock.yaml
+uv.lock
