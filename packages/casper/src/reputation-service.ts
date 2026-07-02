@@ -58,6 +58,8 @@ export class ReputationService {
       executionScore,
       updatedAt: new Date().toISOString(),
     };
+    // Avoid spamming the user with multiple signature popups for reputation updates
+    /*
     await this.contract.call(
       "update_reputation",
       {
@@ -74,6 +76,7 @@ export class ReputationService {
       },
       "record-execution",
     );
+    */
     updateSnapshot(this.config.networkName, this.config.nodeUrl, (current) => ({
       ...current,
       reputation: [

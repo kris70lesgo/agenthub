@@ -5,7 +5,6 @@ import type { CasperClientConfig } from "./types";
 export const DEFAULT_CASPER_CONFIG: CasperClientConfig = {
   networkName: "casper-test",
   nodeUrl: "https://node.testnet.casper.network/rpc",
-  csprCloudUrl: "https://api.testnet.cspr.cloud",
   explorerUrl: "https://testnet.cspr.live",
   agentRegistryContractHash: undefined,
   contractCallPaymentMotes: 5_000_000_000,

@@ -18,6 +18,7 @@ COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=dependencies /app/apps/web/node_modules ./apps/web/node_modules
 COPY --from=dependencies /app/packages ./packages
 COPY . .
+RUN cp .env apps/web/.env || true
 RUN pnpm --filter @agenthub/web build
 
 FROM node:22-alpine AS runner

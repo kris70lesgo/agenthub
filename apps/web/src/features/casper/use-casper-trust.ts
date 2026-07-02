@@ -34,6 +34,7 @@ export function useCasperTrust() {
   }, []);
 
   useEffect(() => {
+    refresh();
     globalThis.addEventListener("agenthub:casper-trust-updated", refresh);
     return () =>
       globalThis.removeEventListener("agenthub:casper-trust-updated", refresh);

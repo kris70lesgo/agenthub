@@ -17,6 +17,8 @@ export class AttestationService {
   async attestWorkflow(
     input: WorkflowAttestationInput,
   ): Promise<WorkflowAttestation> {
+
+
     const timestamp = new Date().toISOString();
     const workflowHash = await sha256Hex({
       workflowId: input.workflowId,
@@ -31,6 +33,8 @@ export class AttestationService {
       executionEvents: input.executionEvents,
       timestamp,
     });
+
+
     const attestation: WorkflowAttestation = {
       id: `attestation-${executionHash.slice(2, 14)}`,
       workflowId: input.workflowId,
@@ -44,16 +48,24 @@ export class AttestationService {
       transactionHash: executionHash,
     };
     const timestampMs = Date.parse(timestamp);
+
+    // Ensure version is always a string — the contract expects String type
+    const versionStr = String(input.version);
+    const runtimeArgs = {
+      workflow_hash: workflowHash,
+      execution_hash: executionHash,
+      timestamp: Number.isFinite(timestampMs) ? timestampMs : Date.now(),
+      version: versionStr,
+    };
+
+
     const transaction = await this.contract.call(
       "record_workflow",
-      {
-        workflow_hash: workflowHash,
-        execution_hash: executionHash,
-        timestamp: Number.isFinite(timestampMs) ? timestampMs : Date.now(),
-        version: input.version,
-      },
+      runtimeArgs,
       "record-workflow",
     );
+
+
     const next = { ...attestation, transactionHash: transaction.hash };
     updateSnapshot(
       this.config.networkName,
@@ -63,6 +75,7 @@ export class AttestationService {
         attestations: [next, ...snapshot.attestations].slice(0, 25),
       }),
     );
+
     return next;
   }
 

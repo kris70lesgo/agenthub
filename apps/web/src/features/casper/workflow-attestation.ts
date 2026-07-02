@@ -32,7 +32,14 @@ export async function prepareWorkflowAttestation({
   const wallet = new WalletService(casperConfig).currentAccount();
   const agentChain = buildAgentChain(nodes, wallet.publicKey);
   const registry = new AgentRegistryService(casperConfig);
-  await Promise.all(agentChain.map((agent) => registry.registerAgent(agent)));
+  
+  const registeredAgentIds = new Set(registry.agents().map((a) => a.agentId));
+  for (const agent of agentChain) {
+    if (!registeredAgentIds.has(agent.agentId)) {
+      await registry.registerAgent(agent);
+      registeredAgentIds.add(agent.agentId);
+    }
+  }
 
   const attestation = await new AttestationService(casperConfig).attestWorkflow(
     {

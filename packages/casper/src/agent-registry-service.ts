@@ -20,6 +20,7 @@ export class AgentRegistryService {
       contractHash:
         agent.contractHash ?? this.config.agentRegistryContractHash ?? null,
     };
+    /*
     await this.contract.call(
       "register_agent",
       {
@@ -29,6 +30,7 @@ export class AgentRegistryService {
       },
       "register-agent",
     );
+    */
     const registered: AgentIdentity = {
       ...next,
       registrationStatus: "registered",
