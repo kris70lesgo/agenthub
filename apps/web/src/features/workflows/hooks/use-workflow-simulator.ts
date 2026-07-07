@@ -20,7 +20,7 @@ import {
 } from "@/features/workflows/lib/runtime-api";
 import { prepareWorkflowAttestation } from "@/features/casper/workflow-attestation";
 import { casperConfig } from "@/features/casper/config";
-import { TransactionService } from "@agenthub/casper";
+import { TransactionService, type WorkflowAttestation } from "@agenthub/casper";
 import type {
   PlaybackSpeed,
   RuntimeEvent,
@@ -92,6 +92,7 @@ export function useWorkflowSimulator({
   onNodeStatusChange: (nodeId: string, status: WorkflowNodeStatus) => void;
 }) {
   const [runtime, setRuntime] = useState<WorkflowRuntimeState>(createIdleState);
+  const [casperAttestation, setCasperAttestation] = useState<WorkflowAttestation | null>(null);
   const [clock, setClock] = useState(Date.now());
   const eventSourceRef = useRef<EventSource | null>(null);
   const workflowIdRef = useRef<string | null>(null);
@@ -205,6 +206,7 @@ export function useWorkflowSimulator({
                     attestation.transactionHash,
                   ),
                 );
+                setCasperAttestation(attestation);
                 toast.success("Workflow recorded on Casper Testnet.");
               })
               .catch((error: Error) => {
@@ -477,6 +479,8 @@ export function useWorkflowSimulator({
     currentRecord: runtime.currentNodeId
       ? (runtime.records[runtime.currentNodeId] ?? null)
       : null,
+    casperAttestation,
+    setCasperAttestation,
     start: startMutation.mutate,
     pause: () => command("pause"),
     resume: () => command("resume"),

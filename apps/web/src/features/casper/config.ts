@@ -2,7 +2,9 @@ import { resolveCasperConfig } from "@agenthub/casper";
 
 export const casperConfig = resolveCasperConfig({
   networkName: process.env.NEXT_PUBLIC_CASPER_NETWORK,
-  nodeUrl: process.env.NEXT_PUBLIC_CASPER_NODE_URL,
+  nodeUrl: process.env.NEXT_PUBLIC_CASPER_NODE_URL?.startsWith("/")
+    ? process.env.NEXT_PUBLIC_CASPER_NODE_URL
+    : (process.env.NEXT_PUBLIC_CASPER_NODE_URL?.replace(/\/rpc$/, "") + "/rpc"),
   csprCloudUrl: process.env.NEXT_PUBLIC_CSPR_CLOUD_URL,
   agentRegistryContractHash:
     process.env.NEXT_PUBLIC_AGENT_REGISTRY_CONTRACT_HASH,

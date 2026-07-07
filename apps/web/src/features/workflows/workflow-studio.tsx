@@ -40,6 +40,7 @@ import {
 import { createWorkflowNode } from "@/features/workflows/data/node-registry";
 import { useWorkflowSimulator } from "@/features/workflows/hooks/use-workflow-simulator";
 import { validateWorkflowConnection } from "@/features/workflows/lib/connection-rules";
+import { CasperAttestationModal } from "@/features/casper/components/casper-attestation-modal";
 import type {
   AgentHubWorkflowNode,
   WorkflowContextMenuState,
@@ -612,6 +613,12 @@ function WorkflowStudioWorkbench() {
         metrics={simulator.metrics}
         status={simulator.runtime.status}
       />
+      {simulator.casperAttestation && (
+        <CasperAttestationModal
+          attestation={simulator.casperAttestation}
+          onClose={() => simulator.setCasperAttestation(null)}
+        />
+      )}
     </section>
   );
 }
