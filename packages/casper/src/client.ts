@@ -20,8 +20,12 @@ export function createExplorerLink(
   config: CasperClientConfig,
   hash: string,
 ): string {
-  const base = config.explorerUrl ?? DEFAULT_CASPER_CONFIG.explorerUrl;
-  return `${base}/deploy/${hash.replace(/^0x/, "")}`;
+  const base = (
+    config.explorerUrl ??
+    DEFAULT_CASPER_CONFIG.explorerUrl ??
+    "https://testnet.cspr.live"
+  ).replace(/\/$/, "");
+  return `${base}/transaction/${hash.replace(/^0x/, "")}`;
 }
 
 export function resolveCasperConfig(

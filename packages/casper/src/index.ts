@@ -8,7 +8,7 @@ export { AgentHubRegistryContractService } from "./contract-service";
 export { AgentRegistryService } from "./agent-registry-service";
 export { ReputationService } from "./reputation-service";
 export { TransactionService } from "./transaction-service";
-export { WalletService } from "./wallet-service";
+export { WalletService, publicKeyToAccountHash } from "./wallet-service";
 export { WorkflowRegistryService } from "./workflow-registry-service";
 export { readSnapshot } from "./storage";
 export type {

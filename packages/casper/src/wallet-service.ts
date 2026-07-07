@@ -116,7 +116,7 @@ function getBrowserWallet(): CasperBrowserWallet | null {
   return candidate.casperlabsHelper ?? candidate.CasperWalletProvider ?? null;
 }
 
-function publicKeyToAccountHash(publicKeyHex: string): string | null {
+export function publicKeyToAccountHash(publicKeyHex: string): string | null {
   try {
     return PublicKey.fromHex(publicKeyHex).accountHash().toPrefixedString();
   } catch {
